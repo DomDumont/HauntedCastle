@@ -1,0 +1,79 @@
+000 Lbl     76  ;   ====================================
+001 D       14  ;   Label D, notre première commande
+002 CMS     47  ;   Clear Memories
+003 STO     42  ;   STORE x 
+004 09      09  ;   to register 9
+005 1       01  ;   x = 1
+006 STO     42  ;   STORE x 
+007 10      10  ;   to register 10
+008 2       02  ;   ???
+009 0       00  ;   ??? serait-ce 20 tout simplement ?
+010 STO     42  ;   STORE x
+011 13      13  ;   to register 13
+012 1       01  ;   1
+013 6       06  ;   6 x=> 16
+014 STO     42  ;   STORE x
+015 11      11  ;   to register 11
+016 SBR     71  ;   SubRoutine Call
+017 Int     59  ;   Integer ?
+
+018 9       09  ;   9 ???
+019 INV     22  ;   Inv
+020 x>=t    77  ;   x < t ?
+021 0       00  ;   00
+022 16      16  ;   16
+023 1       01  ;   01
+024 0       00  ;   00
+025 Prd Ind 64  ;   Multiply x into indirect memory
+026 12      12  ;   à l'adresse contenue dans le registre 12
+027 6       06  ;   on met 6
+028 STO     42  ;   dans le registre
+029 11      11  ;   11
+030 Pgm     36  ;   Program page
+031 15      15  ;   Active le programme 15 de la master library
+032 C       13  ;   Generate random number command
+033 Int     59  ;   Integer ?
+034 SUM ind 74  ;   Sum x into indirect memory
+
+
+Allons donc voir ce qui se cache dans cette subroutine Integer
+
+078 Lbl     76  ;   ====================================
+079 Int     59  ;   Label Integer . 
+080 Pgm     36  ;   Program page
+081 15      15  ;   Active le program 15 de la master library
+082 C       13  ;   Generate random number command
+083 +       85  ;   +
+084 1       01  ;   1
+085 4       04  ;   4
+086 =       95  ;   =
+087 STO     42  ;   Store
+088 12      12  ;   to register 12
+089 RCL Ind 73  ;   Recall indirect
+090 12      12  ;   12
+091 x<->t   32  ;   t reçoit x.
+092 RTN     92  ;   Return     
+
+
+
+Occupons nous de la routine la plus simple. 
+Celle quand on appuie sur la touche E pour avoir le nombre de trésors
+trouvés et notre santé.
+
+VOici le listing
+
+227 Lbl     76  ;   Label
+228 E       15  ;   E => On commence ici quand on appuie sur E
+229 RCL     43  ;   Recall
+230 14      14  ;   le registre 14
+231 %       55  ;   Div
+232 1       01  ;   1
+233 0       00  ;   0
+234 0       00  ;   0 => x = 100
+235 +       85  ;   +  
+236 RCL     43  ;   Recall
+237 00      00  :   0
+238 =       95  :   =
+239 RTN     92  :   RETURN
+
+

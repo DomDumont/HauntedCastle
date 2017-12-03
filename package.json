@@ -1,0 +1,24 @@
+{
+  "name": "hauntedcastle",
+  "version": "1.0.0",
+  "description": "Reprise du jeu \"le château hanté\" (pour ti-58) provenant du magazine tilt n°1",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "copy-public": "node copy-public.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DomDumont/HauntedCastle.git"
+  },
+  "author": "DomDom",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/DomDumont/HauntedCastle/issues"
+  },
+  "homepage": "https://github.com/DomDumont/HauntedCastle#readme",
+  "devDependencies": {
+    "fs-extra": "^4.0.2",
+    "phaser-ce": "^2.9.2"
+  }
+}
