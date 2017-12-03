@@ -20,7 +20,7 @@ module.exports = {
         {
             "pixi.js": "PIXI",
             "stats.js": "Stats",
-            "phaser-ce": "phaser-ce"
+            "phaser-ce": "phaser"
         }
     ],
     module: {
