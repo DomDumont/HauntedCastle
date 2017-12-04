@@ -9,7 +9,7 @@
 008 02 2  
 009 00 0  
 010 42 STO
-011 13 13  ; on met 20 dans le registre 13, pour l'instant je ne sais pas pourquoi
+011 13 13  ; on met 20 dans le registre 13, pour l'instant je ne sais pas pourquoi boucle sur 20 trucs, ptet des monstres ?
 012 01 1  
 013 06 6  
 014 42 STO
@@ -25,7 +25,7 @@
 024 00 0  
 025 64 PD*
 026 12 12 
-027 06 6  
+027 06 6   // 6 est notre nouveau max, on jette un dé 6 ?
 028 42 STO
 029 11 11 
 030 36 PGM /// CALL RANDOM ROUTINE
@@ -34,7 +34,7 @@
 033 59 INT
 034 74 SM*
 035 12 12 
-036 97 DSZ
+036 97 DSZ Decrement register and goto when 0
 037 13 13 
 038 00 00 
 039 12 12 
@@ -244,13 +244,13 @@
 227 76 LBL ; ===================================
 228 15 E   ; pour avoir notre état et les trésors
 229 43 RCL
-230 14 14 
+230 14 14  ; le nombre de trésors est en r14
 231 55 /  
 232 01 1  
 233 00 0  
 234 00 0  
 235 85 +  
 236 43 RCL
-237 00 00 
+237 00 00  ; nos points de vie sont en r0 ?
 238 95 =  
 239 92 RTN
