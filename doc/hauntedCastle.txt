@@ -37,32 +37,38 @@
 036 97 DSZ Decrement register and goto when 0
 037 13 13 
 038 00 00 
+
 039 12 12 
 040 03 3  
 041 42 STO
 042 13 13 
+
 043 01 1  
 044 06 6  
 045 42 STO
 046 11 11 
+
 047 76 LBL ; ============================================
 048 18 C'  ; Routine C'
 
 049 71 SBR
 050 59 INT
 
-051 25 CLR
-052 67 EQ 
+051 25 CLR x = 0
+
+052 67 EQ  si t = 0 on va en C'
 053 18 C' 
-054 77 GE 
+
+054 77 GE si t < 0 on va en C' aussi
 055 18 C' 
+
 056 01 1  
 057 94 +/-
 058 64 PD*
 059 12 12 
 060 97 DSZ
 061 13 13 
-062 18 C' 
+062 18 C'  on va en C'
 
 063 01 1  
 064 05 5  
@@ -73,10 +79,10 @@
 068 42 STO
 069 11 11 
 
-070 04 4  
-071 00 0  
-072 42 STO
-073 14 14 
+070 04 4   // On part avec 40 points de courage dans le registre 14
+071 00 0   // On part avec 40 points de courage dans le registre 14
+072 42 STO // On part avec 40 points de courage dans le registre 14
+073 14 14  // On part avec 40 points de courage dans le registre 14
 
 074 58 FIX
 075 02 2  
@@ -113,14 +119,17 @@
 104 95 =  
 105 50 IXI
 106 32 X/T
-107 01 1  
-108 67 EQ 
+
+107 01 1   // si T = 1 goto 115
+108 67 EQ  
 109 01 01 
 110 15 15 
-111 05 5  
-112 22 INV
-113 67 EQ 
+
+111 05 5   // Aller à la coroutine LOG si t != 5
+112 22 INV 
+113 67 EQ  
 114 28 LOG
+
 115 43 RCL
 116 01 01 
 117 42 STO
@@ -148,16 +157,20 @@
 
 138 76 LBL ; =========================================
 139 13 C   ; C combat
-140 25 CLR
+
+140 25 CLR 
 141 32 X/T
+
 142 43 RCL
 143 12 12 
 144 55 /  
 145 01 1  
 146 00 0  
 147 95 =  
-148 67 EQ 
+
+148 67 EQ si x = 0 ( car t= 0 )  on va à la couroutine LOG
 149 28 LOG
+
 150 22 INV
 151 59 INT
 152 65 *  
@@ -187,47 +200,58 @@
 174 12 12 
 175 25 CLR
 176 32 X/T
+
 177 73 RC*
 178 13 13 
-179 77 GE 
+179 77 GE  // Si x >= t goto 184
 180 01 01 
 181 84 84 
-182 69 OP 
+
+182 69 OP  // R0 = r0 + 1
 183 20 20 
+
 184 55 /  
 185 01 1  
 186 00 0  
 187 95 =  
 188 59 INT
+
 189 72 ST*
 190 13 13 
-191 77 GE 
+191 77 GE // Si x >= t goto 196
 192 01 01 
+
 193 96 96 
-194 69 OP 
+
+194 69 OP  // R0 = r0 - 1
 195 30 30 
-196 43 RCL
-197 12 12 
+
+196 43 RCL // On retire r12 de r14 ?
+197 12 12  // en gros on diminue nos points de courage de r12
 198 22 INV
 199 44 SUM
 200 14 14 
-201 43 RCL
-202 14 14 
-203 32 X/T
-204 25 CLR
+
+201 43 RCL // On met nos points de courage dans T
+202 14 14  // ils étaient dans r14
+203 32 X/T // on les mets dans T
+
+204 25 CLR  // x= 0 et r12 = 0
 205 42 STO
 206 12 12 
-207 77 GE 
-208 02 02 
+
+207 77 GE  // si 0 >= t donc si il nous reste des points de courage
+208 02 02 	// on va en 220
 209 20 20 
-210 43 RCL
-211 00 00 
-212 32 X/T
-213 02 2  
-214 77 GE 
-215 28 LOG
-216 93 .  
-217 09 9  
+
+210 43 RCL // Sinon
+211 00 00  // On récupère nos trésors
+212 32 X/T // on les mets dans t
+213 02 2   // x = 2
+214 77 GE  // si 2 >= nos trésors
+215 28 LOG // on va en LOG
+216 93 .   // SInon on a 3 trésors
+217 09 9   // et on affiche .99 !!
 218 09 9  
 219 92 RTN
 
@@ -244,13 +268,13 @@
 227 76 LBL ; ===================================
 228 15 E   ; pour avoir notre état et les trésors
 229 43 RCL
-230 14 14  ; le nombre de trésors est en r14
+230 14 14  ; nos points de courage sont en r14
 231 55 /  
 232 01 1  
 233 00 0  
 234 00 0  
 235 85 +  
 236 43 RCL
-237 00 00  ; nos points de vie sont en r0 ?
+237 00 00  ; Les trésors sont en r0
 238 95 =  
 239 92 RTN
