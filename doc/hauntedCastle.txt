@@ -15,11 +15,12 @@
 014 42 STO
 015 11 11  ; on met 16 dans le registre 11, c'est le max pour notre random
 016 71 SBR
-017 59 INT
-018 09 9  
+017 59 INT ; il faut trouver ce que vaut t quand on sort de la coroutine INT
+
+018 09 9   ; x = 9
 019 22 INV
-020 77 GE 
-021 00 0  
+020 77 GE  ; si 9 < t  goto 16 ? 
+021 00 0   
 022 16 A' 
 023 01 1  
 024 00 0  
@@ -80,9 +81,9 @@
 069 11 11 
 
 070 04 4   // On part avec 40 points de courage dans le registre 14
-071 00 0   // On part avec 40 points de courage dans le registre 14
-072 42 STO // On part avec 40 points de courage dans le registre 14
-073 14 14  // On part avec 40 points de courage dans le registre 14
+071 00 0   >>
+072 42 STO >>
+073 14 14  >>
 
 074 58 FIX
 075 02 2  
@@ -92,8 +93,8 @@
 078 76 LBL ; ================================================
 079 59 INT ; Routine INT
 080 36 PGM /// CALL RANDOM ROUTINE
-081 15 15  /// CALL RANDOM ROUTINE
-082 13 C   /// CALL RANDOM ROUTINE
+081 15 15  >>
+082 13 C   >>
 083 85 +  
 084 01 1  
 085 04 4  
@@ -254,7 +255,7 @@
 213 02 2   // x = 2
 214 77 GE  // si 2 >= nos trésors
 215 28 LOG // on va en LOG
-216 93 .   // SInon on a 3 trésors
+216 93 .   // Sinon on a 3 trésors
 217 09 9   // et on affiche .99 !!
 218 09 9   // et on affiche .99 !!
 219 92 RTN // et on affiche .99 !!
