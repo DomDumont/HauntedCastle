@@ -201,7 +201,7 @@
 161 59 INT
 162 32 X/T
 163 01 1    x = 1
-164 67 EQ 	si t = 1 goto 196 //Perdu
+164 67 EQ 	si t = 1 goto 196 // On va perdre des points de courage avec ce monstre
 165 01 01 
 166 96 96 
 
@@ -220,30 +220,30 @@
 
 177 73 RC*
 178 13 13 
-179 77 GE  // Si x >= t goto 184
+179 77 GE  // Si &r13 >= 0 goto 184 // c'est positif donc il n'y a pas de trésor.
 180 01 01 
 181 84 84 
 
-182 69 OP  // R0 = r0 + 1 , on a trouvé un trésor !!!
-183 20 20 
+182 69 OP  // on est dans le cas négatif donc on on a trouvé un trésor !!! 
+183 20 20  // OP 20 revient à faire R0 = r0 + 1 . r0 contient nos trésors trouvés
 
-184 55 /  
+184 55 /   ; on divise par 10, donc on prend le prochain monstre
 185 01 1  
 186 00 0  
 187 95 =  
 188 59 INT
-
-189 72 ST*
+189 72 ST* ; et on remet tout dans &r13 
 190 13 13 
-191 77 GE // Si x >= t goto 196
+
+191 77 GE // Si &r13 >= 0 goto 196 ( c'est encore positif, il n'y a pas de trésor )
 192 01 01 
 193 96 96 
 
-194 69 OP  // R0 = r0 - 1
-195 30 30 
+194 69 OP  // il reste encore un monstre et on est tjs négatif, on a donc attribué un trésor top tôt 
+195 30 30  // OP 30 fait un  R0 = r0 - 1 donc on se retire un trésor
 
 196 43 RCL // On retire r12 de r14 ?
-197 12 12  // en gros on diminue nos points de courage de r12
+197 12 12  // en gros on diminue nos points de courage (qui sont dans r14) de r12
 198 22 INV
 199 44 SUM
 200 14 14 
@@ -256,8 +256,8 @@
 205 42 STO
 206 12 12 
 
-207 77 GE  // si 0 >= t donc si il nous reste des points de courage
-208 02 02 	// on va en 220
+207 77 GE  // si t < 0 donc si il nous reste plus de points de courage
+208 02 02  // on va en 220 ( on a perdu en fait, faut se faire à cette idée )
 209 20 20 
 
 210 43 RCL // Sinon
@@ -272,8 +272,8 @@
 219 92 RTN // et on affiche .99 !!
 
 
-220 01 1  
-221 22 INV
+220 01 1   // On a perdu !!! j'ai l'impression que 1 INV FIX / 0 cela fait 9.99999999 ( a tester sur emulateur )
+221 22 INV // C'est ça, ça fait un beau 9.9999999 clignotant (à cause de l'erreur de la division par 0)
 222 58 FIX
 223 55 /  
 224 00 0  
