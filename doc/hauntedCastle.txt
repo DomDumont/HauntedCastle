@@ -2,44 +2,51 @@
 001 14 D   ; Label D, on arrive ici quand on tape sur D
 002 47 CMS ; on clear les registres
 003 42 STO
-004 09 09  ; On met x (l'affichage) dans le registre 9 , c'est la seed pour l'algo de random
-005 01 1  
-006 42 STO
-007 10 10  ; on met 1 dans le registre 10, c'est le min pôur notre random
-008 02 2  
-009 00 0  
-010 42 STO
-011 13 13  ; on met 20 dans le registre 13, pour l'instant je ne sais pas pourquoi boucle sur 20 trucs, ptet des monstres ?
-012 01 1  
-013 06 6  
-014 42 STO
-015 11 11  ; on met 16 dans le registre 11, c'est le max pour notre random
-016 71 SBR
-017 59 INT ; il faut trouver ce que vaut t quand on sort de la coroutine INT
+004 09 09   ; On met x (l'affichage) dans le registre 9 , c'est la seed pour l'algo de random
 
-018 09 9   ; x = 9
+005 01 1    ; on met 1 dans le registre 10, c'est le min pôur notre random
+006 42 STO  >
+007 10 10   >
+
+008 02 2    ; on met 20 dans le registre 13, pour l'instant je ne sais pas pourquoi boucle sur 20 trucs, ptet des monstres ?
+009 00 0    >
+010 42 STO  >
+011 13 13   >
+
+012 01 1    ; on met 16 dans le registre 11, c'est le max pour notre random
+013 06 6    >
+014 42 STO  >
+015 11 11   >
+
+016 71 SBR
+017 59 INT  ; il faut trouver  à quoi sert la coroutine INT
+
+018 09 9    ; x = 9
 019 22 INV
-020 77 GE  ; si 9 < t  goto 16 ? 
+020 77 GE   ; si t > 9  goto 16  ? 
 021 00 0   
 022 16 A' 
-023 01 1  
+
+023 01 1   ; on multiplie &r12 par 10
 024 00 0  
 025 64 PD*
 026 12 12 
+
 027 06 6   // 6 est notre nouveau max, on jette un dé 6 ?
 028 42 STO
 029 11 11 
 030 36 PGM /// CALL RANDOM ROUTINE
 031 15 15  /// CALL RANDOM ROUTINE
 032 13 C   /// CALL RANDOM ROUTINE
-033 59 INT
-034 74 SM*
+033 59 INT ; on prend la partie entiere
+034 74 SM* ; on ajoute cela à &r12
 035 12 12 
-036 97 DSZ Decrement register and goto when 0
-037 13 13 
-038 00 00 
 
-039 12 12 
+036 97 DSZ  ; Decrement r13 and goto 12 when not 0
+037 13 13   >
+038 00 00   >
+039 12 12   >
+
 040 03 3  
 041 42 STO
 042 13 13 
@@ -60,14 +67,15 @@
 052 67 EQ  si t = 0 on va en C'
 053 18 C' 
 
-054 77 GE si t < 0 on va en C' aussi
+054 77 GE si  t <= 0 on va en C' aussi
 055 18 C' 
 
-056 01 1  
+056 01 1    ; si t > 0
 057 94 +/-
 058 64 PD*
-059 12 12 
-060 97 DSZ
+059 12 12   &r12 = &r12 * - 1;
+
+060 97 DSZ ; decrement r13 and goto C' when  not 0
 061 13 13 
 062 18 C'  on va en C'
 
@@ -97,7 +105,7 @@
 082 13 C   >>
 083 85 +  
 084 01 1  
-085 04 4  
+085 04 4   ; magic number 14
 086 95 =  
 087 42 STO
 088 12 12 
@@ -110,7 +118,7 @@
 094 11 A   ; A , quand on rentre dans une pièce
 095 85 +  
 096 01 1  
-097 04 4  
+097 04 4   ; magic number 14
 098 95 =  
 099 42 STO
 100 01 01 
@@ -119,7 +127,7 @@
 103 13 13 
 104 95 =  
 105 50 IXI
-106 32 X/T
+106 32 X/T ; t contient le numéro de la pièce entre 0 et 14 ???
 
 107 01 1   // si T = 1 goto 115
 108 67 EQ  
@@ -150,12 +158,13 @@
 129 00 0  
 130 75 -  
 131 01 1  
-132 04 4  
+132 04 4   ; magic number 14
 133 85 +  
 134 43 RCL
 135 13 13 
 136 95 =  
 137 92 RTN
+
 
 138 76 LBL ; =========================================
 139 13 C   ; C combat
