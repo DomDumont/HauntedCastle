@@ -1,10 +1,11 @@
 
 import * as Phaser from "phaser-ce";
 import Boot from "./states/boot";
+import * as WebFontLoader from "webfontloader";
 
 class App extends Phaser.Game {
     constructor(config: Phaser.IGameConfig) {
-        super (config);
+        super(config);
 
         this.state.add("boot", Boot);
 
@@ -28,5 +29,27 @@ function startApp(): void {
 }
 
 window.onload = () => {
-    startApp();
-}
+
+    let webFontLoaderOptions: any = undefined;
+    const webFontsToLoad: string[] = GOOGLE_WEB_FONTS;
+
+    if (webFontsToLoad.length > 0) {
+        webFontLoaderOptions = (webFontLoaderOptions || {});
+
+        webFontLoaderOptions.google = {
+            families: webFontsToLoad
+        };
+    }
+
+
+    if (webFontLoaderOptions === null) {
+        // Just start the game, we don't need any additional fonts
+        startApp();
+    } else {
+        // Load the fonts defined in webFontsToLoad from Google Web Fonts, and/or any Local Fonts then start the game knowing the fonts are available
+        webFontLoaderOptions.active = startApp;
+
+        WebFontLoader.load(webFontLoaderOptions);
+    }
+
+};
