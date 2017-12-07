@@ -14,10 +14,10 @@ export default class Boot extends Phaser.State {
 
 
 
-            this.text = game.add.text(game.world.centerX, game.world.centerY, "- phaser -\nrocking with\ngoogle web fonts");
+            this.text = game.add.text(game.world.centerX, game.world.centerY, "The Haunted Castle");
             this.text.anchor.setTo(0.5);
 
-            this.text.font = "Barrio";
+            this.text.font = "Mystery Quest";
             this.text.fontSize = 60;
 
             //  x0, y0 - x1, y1
